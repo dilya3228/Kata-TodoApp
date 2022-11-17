@@ -31,10 +31,13 @@ export default class App extends Component {
     ],
   };
 
-  onCompleted = () => {
-    this.setState({
-      completed: true,
-    });
+  onCompleted = (id) => {
+    this.setState((state) => ({
+      data: state.data.map((task) => {
+        if (task.id === id) return { ...task, completed: !task.completed };
+        return { ...task };
+      }),
+    }));
   };
 
   render() {
@@ -45,7 +48,7 @@ export default class App extends Component {
           <NewTaskForm />
         </header>
         <section className="main">
-          <TaskList data={this.state.data} onCompleted={this.onCompleted} completed={this.state.completed} />
+          <TaskList data={this.state.data} onCompleted={this.onCompleted} />
           <Footer />
         </section>
       </section>
