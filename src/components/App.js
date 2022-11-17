@@ -31,6 +31,12 @@ export default class App extends Component {
     ],
   };
 
+  onCompleted = () => {
+    this.setState({
+      completed: true,
+    });
+  };
+
   render() {
     return (
       <section className="todoapp">
@@ -39,7 +45,7 @@ export default class App extends Component {
           <NewTaskForm />
         </header>
         <section className="main">
-          <TaskList data={this.state.data} />
+          <TaskList data={this.state.data} onCompleted={this.onCompleted} completed={this.state.completed} />
           <Footer />
         </section>
       </section>
