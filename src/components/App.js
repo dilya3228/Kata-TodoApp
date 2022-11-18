@@ -46,12 +46,28 @@ export default class App extends Component {
     }));
   };
 
+  getNewId = () => this.state.data.reduce((maxId, data) => (maxId < data.id ? data.id : maxId), 0) + 1;
+
+  addTask = (task) => {
+    this.setState((state) => ({
+      data: [
+        ...state.data,
+        {
+          id: this.getNewId(),
+          editing: false,
+          completed: false,
+          description: task,
+        },
+      ],
+    }));
+  };
+
   render() {
     return (
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <NewTaskForm />
+          <NewTaskForm onAddTask={this.addTask} />
         </header>
         <section className="main">
           <TaskList data={this.state.data} onCompleted={this.onCompleted} onDeleted={this.onDeleted} />
