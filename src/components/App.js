@@ -40,6 +40,12 @@ export default class App extends Component {
     }));
   };
 
+  onDeleted = (id) => {
+    this.setState((state) => ({
+      data: state.data.filter((task) => task.id !== id),
+    }));
+  };
+
   render() {
     return (
       <section className="todoapp">
@@ -48,7 +54,7 @@ export default class App extends Component {
           <NewTaskForm />
         </header>
         <section className="main">
-          <TaskList data={this.state.data} onCompleted={this.onCompleted} />
+          <TaskList data={this.state.data} onCompleted={this.onCompleted} onDeleted={this.onDeleted} />
           <Footer />
         </section>
       </section>

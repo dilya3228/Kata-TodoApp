@@ -17,7 +17,7 @@ export default class Task extends Component {
         <button type="button" className="icon icon-edit">
           {}
         </button>
-        <button type="button" className="icon icon-destroy">
+        <button type="button" className="icon icon-destroy" onClick={this.props.onDeleted}>
           {}
         </button>
       </div>
