@@ -8,7 +8,7 @@ export default class Footer extends Component {
       <footer className="footer">
         <span className="todo-count">items left</span>
         <TasksFilter />
-        <button type="button" className="clear-completed">
+        <button type="button" className="clear-completed" onClick={this.props.onClearCompleted}>
           Clear completed
         </button>
       </footer>

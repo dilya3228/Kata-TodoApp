@@ -63,6 +63,11 @@ export default class App extends Component {
     }));
   };
 
+  onClearCompleted = () =>
+    this.setState((state) => ({
+      data: state.data.filter((task) => !task.completed),
+    }));
+
   render() {
     return (
       <section className="todoapp">
@@ -72,7 +77,7 @@ export default class App extends Component {
         </header>
         <section className="main">
           <TaskList data={this.state.data} onCompleted={this.onCompleted} onDeleted={this.onDeleted} />
-          <Footer />
+          <Footer onClearCompleted={this.onClearCompleted} />
         </section>
       </section>
     );
