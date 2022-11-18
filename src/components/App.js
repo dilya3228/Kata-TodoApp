@@ -9,21 +9,21 @@ export default class App extends Component {
     data: [
       {
         description: 'Completed task',
-        created: 'created 17 seconds ago',
+        created: new Date(),
         id: 1,
         editing: false,
         completed: true,
       },
       {
         description: 'Editing task',
-        created: 'created 5 minutes ago',
+        created: new Date(),
         id: 2,
         editing: true,
         completed: false,
       },
       {
         description: 'Active task',
-        created: 'created 5 minutes ago',
+        created: new Date(),
         id: 3,
         editing: false,
         completed: false,
@@ -46,17 +46,18 @@ export default class App extends Component {
     }));
   };
 
-  getNewId = () => this.state.data.reduce((maxId, data) => (maxId < data.id ? data.id : maxId), 0) + 1;
+  getId = () => this.state.data.reduce((maxId, data) => (maxId < data.id ? data.id : maxId), 0) + 1;
 
-  addTask = (task) => {
+  onAddTask = (task) => {
     this.setState((state) => ({
       data: [
         ...state.data,
         {
-          id: this.getNewId(),
+          id: this.getId(),
           editing: false,
           completed: false,
           description: task,
+          created: new Date(),
         },
       ],
     }));
@@ -67,7 +68,7 @@ export default class App extends Component {
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
-          <NewTaskForm onAddTask={this.addTask} />
+          <NewTaskForm onAddTask={this.onAddTask} />
         </header>
         <section className="main">
           <TaskList data={this.state.data} onCompleted={this.onCompleted} onDeleted={this.onDeleted} />

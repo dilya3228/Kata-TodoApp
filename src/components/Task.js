@@ -1,6 +1,29 @@
 import { Component } from 'react';
+import { formatDistanceToNow } from 'date-fns';
 
 export default class Task extends Component {
+  state = {
+    time: formatDistanceToNow(this.props.el.created, {
+      includeSeconds: true,
+    }),
+  };
+
+  componentDidMount() {
+    this.timer = setInterval(() => this.tick(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  tick() {
+    this.setState({
+      time: formatDistanceToNow(this.props.el.created, {
+        includeSeconds: true,
+      }),
+    });
+  }
+
   render() {
     return (
       <div className="view">
@@ -12,7 +35,7 @@ export default class Task extends Component {
         />
         <div className="label">
           <span className="description">{this.props.el.description}</span>
-          <span className="created">{this.props.el.created}</span>
+          <span className="created">{`created ${this.state.time} ago`}</span>
         </div>
         <button type="button" className="icon icon-edit">
           {}
