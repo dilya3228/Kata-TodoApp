@@ -70,11 +70,9 @@ export default class App extends Component {
       data: state.data.filter((task) => !task.completed),
     }));
 
-  // eslint-disable-next-line class-methods-use-this
   toggleProperty = (arr, id, property, property2 = null) => {
     const newArr = arr.map((element) => {
       if (element.id === id) {
-        // eslint-disable-next-line no-param-reassign
         element = { ...element, [property]: !element[property], [property2]: !element[property2] };
       }
       return element;
@@ -94,7 +92,6 @@ export default class App extends Component {
         this.setState(({ data }) => {
           const newArr = data.map((el) => {
             if (el.id === +id) {
-              // eslint-disable-next-line no-param-reassign
               el = newEl;
             }
             return el;
