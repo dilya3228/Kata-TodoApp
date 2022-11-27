@@ -14,7 +14,23 @@ export default class TaskList extends Component {
     filter: PropTypes.oneOf(['All', 'Active', 'Completed']),
     onDeleted: PropTypes.func.isRequired,
     onCompleted: PropTypes.func.isRequired,
-    onToggleEdit: PropTypes.func.isRequired,
+    onEditDescription: PropTypes.func.isRequired,
+    onChangeDescription: PropTypes.func.isRequired,
+  };
+
+  state = {
+    taskDescription: '',
+  };
+
+  onInput = (event) => {
+    this.setState({
+      onTaskDescription: event.target.value,
+    });
+  };
+
+  onEnter = (event, id) => {
+    event.preventDefault();
+    this.props.onChangeDescription(id, this.state.onTaskDescription);
   };
 
   render() {
@@ -35,12 +51,19 @@ export default class TaskList extends Component {
         <li key={el.id} id={el.id} className={`${el.editing ? 'editing' : ''} ${el.completed ? 'completed' : ''}`}>
           <Task
             el={el}
-            taskCompleted={() => this.props.onCompleted(el.id)}
+            onTaskCompleted={() => this.props.onCompleted(el.id)}
             onDeleted={() => this.props.onDeleted(el.id)}
-            updateTask={this.props.updateTask}
-            onToggleEdit={() => this.props.onToggleEdit(el.id)}
+            onEditDescription={() => this.props.onEditDescription(el.id)}
           />
-          {/* <input type="text" className="edit" value={el.description} /> */}
+          <form onSubmit={(event) => this.onEnter(event, el.id)} onBlur={(event) => this.onEnter(event, el.id)}>
+            <input
+              type="text"
+              className="edit"
+              defaultValue={el.description}
+              onChange={this.onInput}
+              onFocus={this.onInput}
+            />
+          </form>
         </li>
       ));
     return <ul className="todo-list">{tasks}</ul>;

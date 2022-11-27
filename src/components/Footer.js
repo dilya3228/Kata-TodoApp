@@ -10,15 +10,15 @@ export default class Footer extends Component {
 
   static propTypes = {
     filter: PropTypes.oneOf(['All', 'Active', 'Completed']),
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
     onChangeFilter: PropTypes.func.isRequired,
     onClearCompleted: PropTypes.func.isRequired,
   };
 
   render() {
-    const count = this.props.todoCount;
     return (
       <footer className="footer">
-        <span className="todo-count">{`${count} items left`}</span>
+        <span className="todo-count">{`${this.props.data.filter((task) => !task.completed).length} items left`}</span>
         <TasksFilter filter={this.props.filter} onChangeFilter={this.props.onChangeFilter} />
         <button type="button" className="clear-completed" onClick={this.props.onClearCompleted}>
           Clear completed

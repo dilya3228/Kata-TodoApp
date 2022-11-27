@@ -9,21 +9,21 @@ export default class App extends Component {
     data: [
       {
         description: 'Completed task',
-        created: new Date(),
+        createdAt: new Date(),
         id: 1,
         editing: false,
         completed: true,
       },
       {
         description: 'Editing task',
-        created: new Date(),
+        createdAt: new Date(),
         id: 2,
         editing: true,
         completed: false,
       },
       {
         description: 'Active task',
-        created: new Date(),
+        createdAt: new Date(),
         id: 3,
         editing: false,
         completed: false,
@@ -58,90 +58,64 @@ export default class App extends Component {
             editing: false,
             completed: false,
             description: task,
-            created: new Date(),
+            createdAt: new Date(),
           },
         ],
       }));
     }
   };
 
+  onChangeFilter = (filter) =>
+    this.setState({
+      filter,
+    });
+
+  onChangeDescription = (id, newDescription) =>
+    this.setState((state) => ({
+      data: state.data.map((task) => ({
+        ...task,
+        editing: !task.id === id,
+        description: task.id === id ? newDescription : task.description,
+      })),
+    }));
+
+  onEditDescription = (id) =>
+    this.setState((state) => ({
+      data: state.data.map((task) => ({
+        ...task,
+        editing: task.id === id,
+      })),
+    }));
+
   onClearCompleted = () =>
     this.setState((state) => ({
       data: state.data.filter((task) => !task.completed),
     }));
 
-  toggleProperty = (arr, id, property, property2 = null) => {
-    const newArr = arr.map((element) => {
-      if (element.id === id) {
-        element = { ...element, [property]: !element[property], [property2]: !element[property2] };
-      }
-      return element;
-    });
-    return newArr;
-  };
-
-  onToggleEdit = (id) => {
-    this.setState(({ data }) => ({ data: this.toggleProperty(data, id, 'editing') }));
-  };
-
-  updateTask = (e) => {
-    if (e.keyCode === 13) {
-      if (e.target.value.length > 0) {
-        const id = e.currentTarget.parentNode.getAttribute('id');
-        const newEl = this.createTask(e.target.value);
-        this.setState(({ data }) => {
-          const newArr = data.map((el) => {
-            if (el.id === +id) {
-              el = newEl;
-            }
-            return el;
-          });
-          return { data: newArr };
-        });
-      }
-    }
-  };
-
-  changeFilter = (filter) =>
-    this.setState({
-      filter,
-    });
-
-  createTask(task) {
-    return {
-      description: task,
-      id: this.getId(),
-      created: new Date(),
-      completed: false,
-      editing: false,
-    };
-  }
-
   render() {
-    const todoCount = this.state.data.filter((el) => !el.completed).length;
     return (
-      <section className="todoapp">
+      <div className="todoapp">
         <header className="header">
           <h1>todos</h1>
           <NewTaskForm onAddTask={this.onAddTask} />
         </header>
-        <section className="main">
+        <div className="main">
           <TaskList
             data={this.state.data}
             onCompleted={this.onCompleted}
             onDeleted={this.onDeleted}
-            updateTask={this.updateTask}
-            onToggleEdit={this.onToggleEdit}
+            onEditDescription={this.onEditDescription}
+            onChangeDescription={this.onChangeDescription}
             filter={this.state.filter}
           />
           <Footer
+            data={this.state.data}
             onClearCompleted={this.onClearCompleted}
-            todoCount={todoCount}
             filter={this.state.filter}
-            onChangeFilter={this.changeFilter}
+            onChangeFilter={this.onChangeFilter}
           />
-        </section>
-      </section>
+        </div>
+      </div>
     );
   }
 }
