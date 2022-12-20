@@ -19,7 +19,7 @@ export default class TaskList extends Component {
   };
 
   state = {
-    taskDescription: '',
+    onTaskDescription: '',
   };
 
   onInput = (event) => {

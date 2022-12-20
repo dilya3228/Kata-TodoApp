@@ -13,6 +13,7 @@ export default class App extends Component {
         id: 1,
         editing: false,
         completed: true,
+        timer: 0,
       },
       {
         description: 'Editing task',
@@ -20,6 +21,7 @@ export default class App extends Component {
         id: 2,
         editing: true,
         completed: false,
+        timer: 0,
       },
       {
         description: 'Active task',
@@ -27,6 +29,7 @@ export default class App extends Component {
         id: 3,
         editing: false,
         completed: false,
+        timer: 0,
       },
     ],
   };
@@ -49,20 +52,19 @@ export default class App extends Component {
   getId = () => this.state.data.reduce((maxId, data) => (maxId < data.id ? data.id : maxId), 0) + 1;
 
   onAddTask = (task) => {
-    if (task.length > 0 && task.trim().length > 0) {
-      this.setState((state) => ({
-        data: [
-          ...state.data,
-          {
-            id: this.getId(),
-            editing: false,
-            completed: false,
-            description: task,
-            createdAt: new Date(),
-          },
-        ],
-      }));
-    }
+    this.setState((state) => ({
+      data: [
+        ...state.data,
+        {
+          id: this.getId(),
+          editing: false,
+          completed: false,
+          description: task.description,
+          createdAt: new Date(),
+          timer: task.min * 60 + task.sec,
+        },
+      ],
+    }));
   };
 
   onChangeFilter = (filter) =>

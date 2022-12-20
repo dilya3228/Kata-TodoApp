@@ -18,10 +18,12 @@ export default class Task extends Component {
 
   componentDidMount() {
     this.timer = setInterval(() => this.tick(), 1000);
+    this.countdownTimer = setInterval(() => this.tick(), 1000);
   }
 
   componentWillUnmount() {
     clearInterval(this.timer);
+    clearInterval(this.countdownTimer);
   }
 
   tick() {
@@ -32,7 +34,24 @@ export default class Task extends Component {
     });
   }
 
+  countdown() {
+    if (this.props.el.timer > 0) this.props.el.timer -= 1;
+  }
+
+  startTimer() {
+    this.timer = setInterval(() => this.countdown(), 1000);
+  }
+
+  stopTimer() {
+    clearInterval(this.timer);
+  }
+
   render() {
+    const min = Math.floor(this.props.el.timer / 60);
+    const sec = this.props.el.timer % 60;
+    if (this.props.el.completed) {
+      this.stopTimer();
+    }
     return (
       <div className="view">
         <input
@@ -43,6 +62,11 @@ export default class Task extends Component {
         />
         <div className="label">
           <span className="description">{this.props.el.description}</span>
+          <span className="timer">
+            <button type="button" className="icon icon-play" onClick={() => this.startTimer()} aria-label="Play" />
+            <button type="button" className="icon icon-pause" onClick={() => this.stopTimer()} aria-label="Pause" />
+            {`${min}:${sec}`}
+          </span>
           <span className="created">{`created ${this.state.time} ago`}</span>
         </div>
         <button type="button" className="icon icon-edit" onClick={this.props.onEditDescription} />
