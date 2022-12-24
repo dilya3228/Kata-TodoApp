@@ -34,12 +34,12 @@ export default class Task extends Component {
     });
   }
 
-  countdown() {
+  countTimer() {
     if (this.props.el.timer > 0) this.props.el.timer -= 1;
   }
 
   startTimer() {
-    this.timer = setInterval(() => this.countdown(), 1000);
+    this.timer = setInterval(() => this.countTimer(), 1000);
   }
 
   stopTimer() {
