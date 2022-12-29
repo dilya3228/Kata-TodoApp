@@ -32,7 +32,6 @@ export default class TaskList extends Component {
     event.preventDefault();
     this.props.onChangeDescription(id, this.state.onTaskDescription);
   };
-
   render() {
     const tasks = this.props.data
       .filter((task) => {
@@ -69,3 +68,50 @@ export default class TaskList extends Component {
     return <ul className="todo-list">{tasks}</ul>;
   }
 }
+// /* eslint-disable indent */
+// import React, { useState } from 'react';
+
+// import Task from './Task';
+
+// const TaskList = ({ onChangeDescription, data, onCompleted, onDeleted, onEditDescription }) => {
+//   const [taskDescription, setTaskDescription] = useState('');
+
+//   const onInput = (event) => {
+//     setTaskDescription(event.target.value);
+//   };
+
+//   const onEnter = (event, id) => {
+//     event.preventDefault();
+//     onChangeDescription(id, taskDescription);
+//   };
+//   const tasks = () => {
+//     data
+//       // .filter((task) => {
+//       //   switch (filter) {
+//       //     case 'All':
+//       //       return true;
+//       //     case 'Active':
+//       //       return !task.completed;
+//       //     case 'Completed':
+//       //       return task.completed;
+//       //     default:
+//       //       return false;
+//       //   }
+//       // })
+//       .map((el) => (
+//         <li key={el.id} id={el.id} className={`${el.editing ? 'editing' : ''} ${el.completed ? 'completed' : ''}`}>
+//           <Task
+//             el={el}
+//             onTaskCompleted={onCompleted(el.id)}
+//             onDeleted={onDeleted(el.id)}
+//             onEditDescription={onEditDescription(el.id)}
+//           />
+//           <form onSubmit={(event) => onEnter(event, el.id)} onBlur={(event) => onEnter(event, el.id)}>
+//             <input type="text" className="edit" defaultValue={el.description} onChange={onInput} onFocus={onInput} />
+//           </form>
+//         </li>
+//       ));
+//   };
+//   return <ul className="todo-list">{tasks}</ul>;
+// };
+// export default TaskList;
