@@ -56,7 +56,7 @@ const Task = ({ onTaskCompleted, onEditDescription, onDeleted, onCountTimer, el 
 
   return (
     <div className="view">
-      <input className="toggle" type="checkbox" onChange={switchTimer} checked={el.completed} />
+      <input className="toggle" type="checkbox" onChange={switchTimer} checked={el.completed ? true : false} />
       <div className="label">
         <span className="description">{el.description}</span>
         <span className="timer">
